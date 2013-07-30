@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>search</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="bootstrap.min.css">
+  </head>
+  <body>
+
+    <div class="navbar navbar-static-top">
+      <a href="#" class="navbar-brand">100% offline javascript search</a>
+    </div>
+
+    <div class="container">
+
+    <div class="row">
+      <h1>Frank Zappa albums <small>type term and enter</small></h1>
+      <form id="search-form">
+          <input type="text" id="search-input" class="form-control input-large" placeholder="search">
+      </form>
+    </div>
+
+    <div class="row">
+      <dl cass="dl-horizontal" id="search-results"></dl>
+    </div>
+
+    </div>
+
+    <!-- JavaScript plugins (requires jQuery) -->
+    <script src="jquery.js"></script>
+    <!-- Include all compiled plugins (below), or include individual files as needed -->
+    <script src="bootstrap.min.js"></script>
+    <!-- Load the Frank Zappa database -->
+    <script src="data.js"></script>
+
+    <!-- Here is the magic -->
+    <script>
+// Do not do anything until jquery is loaded.
+$(document).ready(function(){
+
+// Override form submit so we do not navigate away on search.
+$('#search-form').submit(function(){return false})
+
+// Do the search when the form changes.
+$('#search-input').keydown(function(){
+    // Clear previous results.
+    $('#search-results').empty()
+
+    // There are more complex ways to do this, incorporating things like
+    // stop words, stemming, ranking etc. However, this is fast, provides
+    // understandable results and is stupid simple.
+    query = $(this).val().toLowerCase()
+    zappa_albums.forEach(function(el){
+        if (el.title.toLowerCase().match(query)) {
+            $('#search-results').append('<dt>'+el.title+'</dt><dd>'+el.released+'</dd>')
+        }
+    })
+})
+
+})
+    </script>
+
+  </body>
+</html>
